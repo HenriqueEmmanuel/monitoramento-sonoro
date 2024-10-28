@@ -12,10 +12,13 @@
     <nav class="navbar">
         <div class="container">
             <ul class="nav-links">
-                <li><a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <li><a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="user-icon" onclick="toggleMenu()">
                     <path d="M3 6H21M3 12H21M3 18H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    </a></li>
+                    </a><div id="dropdownMenu" class="dropdown-content">
+                        <p><strong>Nome: </strong>{{ user_profile.name }}</p>
+                        <p><strong>Email: </strong>{{ user_profile.email }}</p>
+                        <a href="/logout">Logout</a> </li>
                 <li><a href="#">{{ nome }}</a></li>
             </ul>
         
@@ -29,11 +32,15 @@
         </div>
     </nav>
 
-    <div class="grid-container">
-        <div class="grid-left">
-            <p id="options">Dashboard<br>Histórico de Medições<br>Relatórios</p>
+    <div class="flex-container">
+        <div class="flex-left">
+            <ul>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li>Histórico de Medições</li>
+                <li>Relatórios</li>
+            </ul>
         </div>
-        <div class="grid-right-top">
+        <div class="flex-right">
             <form>
                 <label for="periodo-dia">Período do dia:</label>
                 <select id="periodo-dia" name="periodo-dia">
@@ -63,51 +70,28 @@
                     <option value="novembro">Novembro</option>
                     <option value="dezembro">Dezembro</option>
                 </select>
-                
             </form>            
-
-    <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>dB</th>
-                    <th>Pert.</th>
-                    <th>Mês</th>
-                    <th>Período</th>
-                </tr>
-            </thead>
-            <tbody>
-                        <!-- Exemplo de 7 linhas com dados do banco de dados -->
-                        <?php
-                        // Supondo que você tenha uma conexão com o banco de dados chamada $conn
-                        // e uma tabela chamada "dados_ruido"
-        
-                        $query = "SELECT data, db, perturbador, mes, periodo FROM dados_ruido LIMIT 7";
-                        $result = mysqli_query($conn, $query);
-        
-                        // Verifica se existem resultados
-                        if (mysqli_num_rows($result) > 0) {
-                            // Exibe os dados em linhas da tabela
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                echo "<tr>";
-                                echo "<td>{$row['data']}</td>";
-                                echo "<td>{$row['db']}</td>";
-                                echo "<td>{$row['perturbador']}</td>";
-                                echo "<td>{$row['mes']}</td>";
-                                echo "<td>{$row['periodo']}</td>";
-                                echo "</tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='5'>Nenhum dado encontrado.</td></tr>";
-                        }
-        
-                        // Fecha a conexão
-                        mysqli_close($conn);
-                        ?>
+    
+            <div class="info_data-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>dB</th>
+                            <th>Pert.</th>
+                            <th>Mês</th>
+                            <th>Período</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dados do banco de dados -->
                     </tbody>
                 </table>
+            </div>
         </div>
+    </div>
+
+    <script src="scripts.js"></script>
 
 </body>
 </html>
