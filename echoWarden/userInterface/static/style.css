@@ -1,0 +1,236 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #DCE1DE;
+}
+
+.navbar {
+    background-color: #8A897C; /* Cor de fundo da navbar */
+    color: #fff; /* Cor do texto */
+    padding: 15px 0; /* Espaçamento interno */
+}
+
+.container {
+    display: flex; /* Usando flexbox para alinhar itens */
+    justify-content: space-between; /* Espaço entre os itens */
+    align-items: center; /* Alinhamento vertical */
+    max-width: 1200px; /* Largura máxima */
+    margin: 0 auto; /* Centralizar */
+    padding: 0 20px; /* Espaçamento lateral */
+}
+
+.icon {
+    display: flex; /* Usando flexbox para o container do ícone */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    font-size: 30px;
+}
+
+.nav-links {
+    list-style-type: none; /* Remove a lista */
+    display: flex; /* Flexbox para os links */
+}
+
+.nav-links li {
+    margin-left: 40px; /* Espaçamento entre os links */
+}
+
+.nav-links a {
+    text-decoration: none; /* Sem sublinhado */
+    color: #fff; /* Cor do texto dos links */
+}
+
+/* Definindo o container do grid */
+.grid-container {
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Diminuindo a esquerda (1.5fr) e aumentando a direita (2fr) */
+    grid-template-rows: auto auto; /* Duas linhas: uma para o grid superior e outra para o inferior à direita */
+    padding: 20px;
+    margin-top: 20px; /* Espaço entre a navbar e os grids */
+}
+
+/* Estilos para o grid da esquerda */
+.grid-left {
+    margin-left: 60px;
+    padding: 20px;
+    border-radius: 5px;
+    grid-column: 1;
+    grid-row: 1 / span 2; /* O grid da esquerda ocupa as duas linhas (de cima a baixo) */
+}
+
+#options {
+    line-height: 2; /* Aumenta a altura da linha, criando mais espaço entre as linhas */
+    margin: 0;
+}
+
+/* Estilos para o grid da direita no topo */
+.grid-right-top {
+    padding: 20px;
+    border-radius: 5px;
+    grid-column: 2; /* Colocando este item na segunda coluna */
+    grid-row: 1; /* Colocando este item na primeira linha */
+}
+
+/* Estilos para o grid da direita embaixo */
+.grid-right-bottom {
+    padding: 20px;
+    border-radius: 5px;
+    grid-column: 2; /* Colocando este item na segunda coluna */
+    grid-row: 2; /* Colocando este item na segunda linha */
+}
+
+/* Estilizando o formulário */
+form {
+    max-width: 800px; /* Limita a largura do formulário para melhor visualização */
+    margin: 20px auto; /* Centraliza o formulário */
+    padding: 20px; /* Espaçamento interno do formulário */
+    border-radius: 8px; /* Arredonda os cantos do formulário */
+    background-color: transparent; /* Remove o fundo do formulário */
+    display: flex; /* Usando flexbox para organizar os dropdowns */
+    justify-content: space-between; /* Distribui os itens com espaço entre eles */
+}
+
+/* Estilizando os rótulos */
+label {
+    font-weight: bold; /* Deixa os rótulos em negrito */
+    display: block; /* Faz com que os rótulos ocupem toda a largura */
+    margin-bottom: 8px; /* Espaçamento abaixo do rótulo */
+    text-align: center; /* Centraliza o texto do rótulo */
+}
+
+/* Estilizando os dropdowns */
+select {
+    width: 180px;
+    padding: 10px; /* Espaçamento interno do dropdown */
+    border: 1px solid black; /* Borda preta ao redor do dropdown */
+    border-radius: 5px; /* Arredonda os cantos do dropdown */
+    font-size: 16px; /* Tamanho da fonte no dropdown */
+    margin-bottom: 0; /* Remove o espaçamento abaixo do dropdown */
+    background-color: transparent; /* Remove o fundo do dropdown */
+    color: black; /* Cor do texto no dropdown */
+}
+
+.side-content {
+    display: flex;
+    height: 80vh;
+}
+
+/* Primeira Coluna (Sidebar) */
+.sidebar {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar ul {
+    list-style: none;
+    text-align: left;
+}
+
+.sidebar ul li {
+    margin-bottom: 20px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar ul li .dot {
+    height: 8px;
+    width: 8px;
+    background-color: black;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* Segunda Coluna (Main Content) */
+.main-content {
+    flex: 3;
+    padding: 20px;
+}
+
+.sensor-name {
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px 20px 10px 20px;
+    border: 1px solid black;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 25px;
+    margin-bottom: 20px;
+}
+
+.info-container {
+    width: 600px;
+    height: 250px;
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 20px;
+    font-weight: 500;
+    border: 1px solid black;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.info-right > p {
+    margin: 10px;
+}
+
+.info-left > p {
+    margin: 10px;
+}
+
+.info-left, .info-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.status-active {
+    font-weight: bold;
+    color: green;
+}
+
+.user-icon {
+    font-size: 24px;
+    color: white;
+    text-decoration: none;
+}
+
+/* Estilo do menu suspenso */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.dropdown-content p {
+    color: #1E1E1E;
+    margin: 10px 0;
+}
+
+.dropdown-content a {
+    color: #1E1E1E;
+    text-decoration: none;
+    display: block;
+    margin-top: 10px;
+}
+
+/* Exibir o menu quando a classe 'show' for adicionada */
+.show {
+    display: block;
+}

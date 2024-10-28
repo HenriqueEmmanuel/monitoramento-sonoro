@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <title>EcoWatcher</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'loginCadastro.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="triangle"></div>
+
+    <div class="container">
+
+        <div class="first-container">
+            <div class="intro-section">
+                <h1>EchoWarden</h1>
+                <p>Guardando o seu <br> silêncio a todo tempo.</p>
+            </div>
+        </div>
+
+        <div class="second-container">
+            <div class="intro-section">
+                <div class="login-section">
+                    <form action="{% url 'cadastro' %}" method="post">
+                        {% csrf_token %}
+                        {% if errors %}
+                        <div class="error"
+                            style="color: red; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                            <ul>
+                                {% for error in errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <label for="name">Nome:</label>
+                        <input type="name" id="name" placeholder="Digite aqui" name="name" required>
+
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email" placeholder="Digite aqui" name="email" required>
+
+                        <label for="password">Senha:</label>
+                        <input type="password" id="password" placeholder="Digite aqui" name="password" required>
+
+                        <button type="submit">Cadastrar</button>
+                        <a href="{% url 'login' %}" class="signup-button">Faça seu login</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

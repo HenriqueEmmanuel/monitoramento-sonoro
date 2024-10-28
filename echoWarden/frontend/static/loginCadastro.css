@@ -1,0 +1,87 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #DCE1DE;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0px 150px;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-bottom: 620px solid transparent; /* Define a altura do triângulo */
+    border-right: 620px solid #BDBBB0;    /* Define a largura e cor */
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1; /* Coloca o triângulo atrás do contêiner */
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    justify-content: space-between; /* Espaça os elementos nas extremidades */
+    align-items: center;            /* Centraliza verticalmente */
+}
+
+.first-container {
+    padding: 20px;
+    align-self: flex-start;
+}
+
+/* Estilo do contêiner */
+.second-container {
+    background-color: #8A897C;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 350px; /* Largura do contêiner */
+    box-sizing: border-box;
+    align-self: center;
+}
+
+/* Estilo dos campos de entrada */
+input[type="email"], input[type="name"], input[type="password"] {
+    width: 260px;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: transparent;
+    border: 1px solid #1E1E1E;
+    border-radius: 5px;
+}
+
+input::placeholder {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: #1E1E1E;
+}
+
+/* Estilo do botão de envio */
+button {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    width: 120px;
+    padding: 10px;
+    background-color: #D2D7DF;
+    color: 1E1E1E;
+    border: none;
+    margin-top: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Estilo do link de cadastro */
+.signup-button {
+    display: block;
+    margin-left: 10px;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.button, .signup-button {
+    display: inline-block;
+    vertical-align: middle;
+}
