@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="style.css"> <!-- Link para o arquivo CSS -->
+    <title>EchoWarden</title>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 6H21M3 12H21M3 18H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    </a></li>
+                <li><a href="#">{{ nome }}</a></li>
+            </ul>
+        
+        <div class="icon">
+            <a href="#"><svg width="23" height="23" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.4501 31.5C15.7011 31.9567 16.0702 32.3375 16.5188 32.6028C16.9674 32.8681 17.4789 33.008 18.0001 33.008C18.5212 33.008 19.0328 32.8681 19.4813 32.6028C19.9299 32.3375 20.299 31.9567 20.5501 31.5M9 12C9 9.61305 9.94821 7.32387 11.636 5.63604C13.3239 3.94821 15.6131 3 18 3C20.3869 3 22.6761 3.94821 24.364 5.63604C26.0518 7.32387 27 9.61305 27 12C27 22.5 31.5 25.5 31.5 25.5H4.5C4.5 25.5 9 22.5 9 12Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
+
+        </div>
+    </nav>
+
+    <div class="grid-container">
+        <div class="grid-left">
+            <p id="options">Dashboard<br>Histórico de Medições<br>Relatórios</p>
+        </div>
+        <div class="grid-right-top">
+            <form>
+                <label for="periodo-dia">Período do dia:</label>
+                <select id="periodo-dia" name="periodo-dia">
+                    <option value="manha">Manhã</option>
+                    <option value="tarde">Tarde</option>
+                    <option value="noite">Noite</option>
+                </select>
+            
+                <label for="perturbacao">Perturbação registrada:</label>
+                <select id="perturbacao" name="perturbacao">
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            
+                <label for="mes-registro">Mês de registro:</label>
+                <select id="mes-registro" name="mes-registro">
+                    <option value="janeiro">Janeiro</option>
+                    <option value="fevereiro">Fevereiro</option>
+                    <option value="marco">Março</option>
+                    <option value="abril">Abril</option>
+                    <option value="maio">Maio</option>
+                    <option value="junho">Junho</option>
+                    <option value="julho">Julho</option>
+                    <option value="agosto">Agosto</option>
+                    <option value="setembro">Setembro</option>
+                    <option value="outubro">Outubro</option>
+                    <option value="novembro">Novembro</option>
+                    <option value="dezembro">Dezembro</option>
+                </select>
+                
+            </form>            
+
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>dB</th>
+                    <th>Pert.</th>
+                    <th>Mês</th>
+                    <th>Período</th>
+                </tr>
+            </thead>
+            <tbody>
+                        <!-- Exemplo de 7 linhas com dados do banco de dados -->
+                        <?php
+                        // Supondo que você tenha uma conexão com o banco de dados chamada $conn
+                        // e uma tabela chamada "dados_ruido"
+        
+                        $query = "SELECT data, db, perturbador, mes, periodo FROM dados_ruido LIMIT 7";
+                        $result = mysqli_query($conn, $query);
+        
+                        // Verifica se existem resultados
+                        if (mysqli_num_rows($result) > 0) {
+                            // Exibe os dados em linhas da tabela
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<tr>";
+                                echo "<td>{$row['data']}</td>";
+                                echo "<td>{$row['db']}</td>";
+                                echo "<td>{$row['perturbador']}</td>";
+                                echo "<td>{$row['mes']}</td>";
+                                echo "<td>{$row['periodo']}</td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='5'>Nenhum dado encontrado.</td></tr>";
+                        }
+        
+                        // Fecha a conexão
+                        mysqli_close($conn);
+                        ?>
+                    </tbody>
+                </table>
+        </div>
+
+</body>
+</html>
