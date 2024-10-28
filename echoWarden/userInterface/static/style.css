@@ -45,150 +45,159 @@ body {
     color: #fff; /* Cor do texto dos links */
 }
 
-/* Flexbox container principal */
-.flex-container {
-    display: flex;
-    justify-content: space-between; /* Espaçamento entre as colunas */
-    align-items: flex-start; /* Alinhamento superior */
+/* Definindo o container do grid */
+.grid-container {
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Diminuindo a esquerda (1.5fr) e aumentando a direita (2fr) */
+    grid-template-rows: auto auto; /* Duas linhas: uma para o grid superior e outra para o inferior à direita */
     padding: 20px;
-    margin-top: 20px; /* Espaço entre a navbar e o conteúdo */
+    margin-top: 20px; /* Espaço entre a navbar e os grids */
 }
 
-/* Primeira coluna (Sidebar) */
-.sidebar {
-    flex: 1; /* Sidebar ocupa menos espaço */
+/* Estilos para o grid da esquerda */
+.grid-left {
+    margin-left: 60px;
     padding: 20px;
-    margin-right: 20px;
-    background-color: #f5f5f5;
     border-radius: 5px;
+    grid-column: 1;
+    grid-row: 1 / span 2; /* O grid da esquerda ocupa as duas linhas (de cima a baixo) */
 }
 
-.sidebar ul {
-    list-style-type: none;
-    padding: 0;
+#options {
+    line-height: 2; /* Aumenta a altura da linha, criando mais espaço entre as linhas */
+    margin: 0;
 }
 
-.sidebar li {
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-/* Segunda coluna (conteúdo principal) */
-.main-content {
-    flex: 2; /* Conteúdo principal ocupa mais espaço */
+/* Estilos para o grid da direita no topo */
+.grid-right-top {
     padding: 20px;
-    background-color: #fff;
     border-radius: 5px;
+    grid-column: 2; /* Colocando este item na segunda coluna */
+    grid-row: 1; /* Colocando este item na primeira linha */
 }
 
-.main-content .sensor-name {
-    font-size: 24px;
-    margin-bottom: 20px;
+/* Estilos para o grid da direita embaixo */
+.grid-right-bottom {
+    padding: 20px;
+    border-radius: 5px;
+    grid-column: 2; /* Colocando este item na segunda coluna */
+    grid-row: 2; /* Colocando este item na segunda linha */
 }
 
-.info-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
+/* Estilizando o formulário */
+form {
+    max-width: 800px; /* Limita a largura do formulário para melhor visualização */
+    margin: 20px auto; /* Centraliza o formulário */
+    padding: 20px; /* Espaçamento interno do formulário */
+    border-radius: 8px; /* Arredonda os cantos do formulário */
+    background-color: transparent; /* Remove o fundo do formulário */
+    display: flex; /* Usando flexbox para organizar os dropdowns */
+    justify-content: space-between; /* Distribui os itens com espaço entre eles */
 }
 
-/* Coluna esquerda de informações */
-.info-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+/* Estilizando os rótulos */
+label {
+    font-weight: bold; /* Deixa os rótulos em negrito */
+    display: block; /* Faz com que os rótulos ocupem toda a largura */
+    margin-bottom: 8px; /* Espaçamento abaixo do rótulo */
+    text-align: center; /* Centraliza o texto do rótulo */
 }
 
-.info-left p {
-    margin-bottom: 10px;
+/* Estilizando os dropdowns */
+select {
+    width: 180px;
+    padding: 10px; /* Espaçamento interno do dropdown */
+    border: 1px solid black; /* Borda preta ao redor do dropdown */
+    border-radius: 5px; /* Arredonda os cantos do dropdown */
+    font-size: 16px; /* Tamanho da fonte no dropdown */
+    margin-bottom: 0; /* Remove o espaçamento abaixo do dropdown */
+    background-color: transparent; /* Remove o fundo do dropdown */
+    color: black; /* Cor do texto no dropdown */
 }
 
-/* Coluna direita de informações */
-.info-right {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.info-right p {
-    margin-bottom: 10px;
-}
-
-.status-active {
-    color: green;
-    font-weight: bold;
-}
-
-.flex-container {
+.side-content {
     display: flex;
     height: 80vh;
 }
 
-.flex-left {
-    list-style-type: none; /* Remove os pontos da lista */
-    padding: 0; /* Remove o padding padrão */
-    margin: 0; /* Remove a margem padrão */
+/* Primeira Coluna (Sidebar) */
+.sidebar {
     flex: 1;
     padding: 20px;
     display: flex;
-    justify-content: center; 
-    align-items: center; 
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #ddd;
 }
 
-.flex-left ul {
-    list-style-type: none; /* Remove os pontos da lista */
-    padding: 0; /* Remove o padding padrão */
-    margin: 0; /* Remove a margem padrão */
+.sidebar ul {
+    list-style: none;
+    text-align: left;
 }
 
-
-.flex-left #options {
+.sidebar ul li {
+    margin-bottom: 20px;
     font-size: 18px;
-    font-weight: normal; 
-    text-align: right; 
+    display: flex;
+    align-items: center;
 }
 
-.flex-right {
+.sidebar ul li .dot {
+    height: 8px;
+    width: 8px;
+    background-color: black;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* Segunda Coluna (Main Content) */
+.main-content {
     flex: 3;
     padding: 20px;
 }
 
-form {
-    max-width: 700px;
-    margin: 10px auto;
-    padding: 20px;
-    border-radius: 8px auto;
-    background-color: transparent;
-    display: flex;
-    gap: 20px; 
-}
-
-
-label {
-    font-weight: bold;
-    margin-bottom: 4px;
-    text-align: left; 
-    font-family: 'Montserrat', sans-serif;
-}
-
-
-select {
-    width: 100%;
-    padding: 10px;
+.sensor-name {
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px 20px 10px 20px;
     border: 1px solid black;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: transparent;
-    color: black;
-    font-family: 'Montserrat', sans-serif;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 25px;
+    margin-bottom: 20px;
 }
 
-.info_data-container {
-    margin: 20px auto; /* Adiciona margem para centralização */
+.info-container {
+    width: 600px;
+    height: 250px;
     display: flex;
-    flex-direction: column; /* Empilha os itens verticalmente */
-    gap: 20px; /* Adiciona espaçamento entre os itens */
-    align-items: center; /* Centraliza o conteúdo do container */
+    justify-content: space-evenly;
+    font-size: 20px;
+    font-weight: 500;
+    border: 1px solid black;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.info-right > p {
+    margin: 10px;
+}
+
+.info-left > p {
+    margin: 10px;
+}
+
+.info-left, .info-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.status-active {
+    font-weight: bold;
+    color: green;
 }
 
 .user-icon {
