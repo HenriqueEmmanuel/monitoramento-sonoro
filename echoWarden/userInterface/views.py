@@ -21,10 +21,7 @@ from rest_framework import viewsets
 @login_required
 def dashboard(request):
     if not request.user.is_authenticated:
-        # Caso o usuário não esteja logado, redireciona para o login
-        return redirect('login')  # Nome da URL de login
-
-    # Caso o usuário esteja logado, exibe o dashboard
+        return redirect('login')  
     return render(request, 'frontend/dashboard.html', {'usuario': request.user})
 
 @login_required
