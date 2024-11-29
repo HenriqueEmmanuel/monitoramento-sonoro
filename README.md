@@ -1,5 +1,70 @@
 # monitoramento-sonoro
 
+Codigo que dava erro em views.py do user
+MES_EM_PORTUGUES_PARA_INGLES = {
+    'janeiro': 'january',
+    'fevereiro': 'february',
+    'marco': 'march',
+    'abril': 'april',
+    'maio': 'may',
+    'junho': 'june',
+    'julho': 'july',
+    'agosto': 'august',
+    'setembro': 'september',
+    'outubro': 'october',
+    'novembro': 'november',
+    'dezembro': 'december',
+}
+
+logger = logging.getLogger(__name__)
+
+def relatorio(request):
+    # Recupera os filtros da URL
+    periodo_dia = request.GET.get('periodo-dia', '')
+    perturbacao = request.GET.get('perturbacao', '')
+    mes_registro = request.GET.get('mes-registro', '').lower()  # Converte para minúsculas para garantir
+
+    # Variáveis para o template
+    context = {
+        'periodo_dia': periodo_dia,
+        'perturbacao': perturbacao,
+        'mes_registro': mes_registro,
+    }
+
+    # Filtros adicionais para os dados (conforme já explicado)
+    filters = {}
+
+    if periodo_dia:
+        if periodo_dia == 'manha':
+            filters['hora__gte'] = '06:00'
+            filters['hora__lt'] = '12:00'
+        elif periodo_dia == 'tarde':
+            filters['hora__gte'] = '12:00'
+            filters['hora__lt'] = '18:00'
+        elif periodo_dia == 'noite':
+            filters['hora__gte'] = '18:00'
+            filters['hora__lt'] = '06:00'
+
+    if perturbacao:
+        filters['status'] = 'sim' if perturbacao == 'sim' else 'nao'
+
+    if mes_registro:
+        mes_ingles = MES_EM_PORTUGUES_PARA_INGLES.get(mes_registro)
+        if mes_ingles:
+            mes_numero = datetime.strptime(mes_ingles, '%B').month
+            filters['data__month'] = mes_numero
+
+    # Recupera os dados do banco de dados com os filtros aplicados
+    niveis = NiveisDeRuido.objects.filter(**filters)
+
+    # Adiciona os níveis de ruído ao contexto
+    context['niveis'] = niveis
+
+    return render(request, 'userInterface/relatorio.html', context)
+
+
+
+
 
 
 
