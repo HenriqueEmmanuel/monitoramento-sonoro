@@ -23,7 +23,10 @@
                     <div id="dropdownMenu" class="dropdown-content">
                         <p><strong>Nome: </strong>{{ user.username }}</p>
                         <p><strong>Email: </strong>{{ user.email }}</p>
-                        <a href="/logout">Sair</a>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit">Logout</button>
+                        </form>
                 </li>
                 <li><a href="#">{{ user.username }}</a></li>
             </ul>
@@ -43,7 +46,7 @@
         <div class="flex-left">
             <ul>
                 <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li></li>>Histórico de Medições</li>
+                <li><a href="{% url 'grafico' %}"> Gráfico</a></li>
                 <li><a href="{% url 'relatorio' %}">Relatórios</a></li>
             </ul>
         </div>
@@ -81,6 +84,16 @@
 
                 <button type="submit">Filtrar</button>
             </form>
+            <form method="GET" action="{% url 'gerar_relatorio' %}">
+                <button type="submit">Gerar Relatório</button>
+            </form>
+            <td>
+                {% if nivel.data %}
+                {{ nivel.data|date:"F" }}
+                {% else %}
+                Data não disponível
+                {% endif %}
+            </td>
 
             <div class="info_data-container">
                 <table>
@@ -98,8 +111,8 @@
                         <tr>
                             <td>{{ nivel.data }}</td>
                             <td>{{ nivel.decibeis }}</td>
-                            <td>{{ nivel.status }}</td>
-                            <td>{{ nivel.data|date:"F" }}</td> <!-- Exibe o mês completo -->
+                            <td>{% if nivel.status %}Sim{% else %}Não{% endif %}</td>
+                            <td>{{ nivel.data|date:"F" }}</td>
                             <td>{{ nivel.hora }}</td>
                         </tr>
                         {% empty %}

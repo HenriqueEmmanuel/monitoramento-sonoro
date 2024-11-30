@@ -23,7 +23,12 @@
                     <div id="dropdownMenu" class="dropdown-content">
                         <p><strong>Usuário:</strong> {{ user.username }} </p>
                         <p><strong>Email:</strong> {{ user.email }} </p>
-                        <a href="/logout">Sair</a>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit">Logout</button>
+                        </form>
+
+
                 </li>
                 <li><a href="#">{{ user.username }}</a></li>
             </ul>
@@ -46,7 +51,7 @@
         <aside class="sidebar">
             <ul>
                 <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li>Histórico de Medições</li>
+                <li><a href="{% url 'grafico' %}"> Gráfico</a></li>
                 <li><a href="{% url 'relatorio' %}">Relatórios</a></li>
             </ul>
         </aside>
@@ -57,12 +62,14 @@
 
             <div class="info-container">
                 <div class="info-left">
-                    <p>Horas de <br> atividade: 00h</p>
-                    <p>Última <br> medição: 0 dB (A)</p>
-                    <p>Relatórios <br> gerados: 0</p>
+                    <p>Horas de <br> atividade: {{ horas_atividade }}h</p>
+                    <p>Última <br> medição: {{ ultima_medicao|default:"0 dB (A)" }} dB (A)</p>
+                    <p>Relatórios <br> gerados: {{ total_relatorios }}</p>
                 </div>
                 <div class="info-right">
-                    <p>Total de <br> medições: 0</p>
+                    <p>Total de <br> medições: {{ total_medicoes|default:"0" }}</p>
+
+
                     <p>Status: <span class="status-active">ON</span></p>
                 </div>
             </div>

@@ -15,8 +15,17 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('relatorio/', views.relatorio, name='relatorio'),
     path('api/', include(router.urls)),
-    
-    path('relatorio/', views.relatorio, name='relatorio'),
+    path('grafico/', views.grafico, name='grafico_niveis'),
+    path('grafico/', views.grafico, name='grafico'),
 
+    path('relatorio/', views.historico_medicoes, name='relatorio'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    
+    path('logout/', views.logout_view, name='logout'),
+    
+    
+    
+    path('gerar-relatorio/', views.gerar_relatorio, name='gerar_relatorio'),
+    
 
 ]

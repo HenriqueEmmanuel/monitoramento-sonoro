@@ -1,49 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gráfico de Níveis de Ruído</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
-
     <h1>Gráfico de Níveis de Ruído</h1>
-    
-    <!-- Canvas para o gráfico -->
-    <canvas id="graficoNivel" width="400" height="200"></canvas>
 
-    <script>
-        // Função para buscar os dados via AJAX
-        fetch('/grafico/')
-            .then(response => response.json())
-            .then(data => {
-                const ctx = document.getElementById('graficoNivel').getContext('2d');
-                
-                // Criando o gráfico com Chart.js
-                const chart = new Chart(ctx, {
-                    type: 'bar', // Tipo do gráfico (barras)
-                    data: {
-                        labels: data.labels,  // Rótulos (datas/hora)
-                        datasets: [{
-                            label: 'Níveis de Ruído (dB)',
-                            data: data.data,  // Valores de decibéis
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            });
-    </script>
+    <!-- Formulário de filtro -->
+    <form method="get" action="{% url 'grafico' %}">
+        <label for="data_inicio">Data Início:</label>
+        <input type="date" id="data_inicio" name="data_inicio" required>
 
+        <label for="data_fim">Data Fim:</label>
+        <input type="date" id="data_fim" name="data_fim" required>
+
+        <button type="submit">Filtrar</button>
+    </form>
+
+    {% if data_inicio and data_fim %}
+    <h2>Gráfico Gerado</h2>
+    <!-- Exibindo a imagem do gráfico -->
+    <img src="{% url 'grafico' %}?data_inicio={{ data_inicio }}&data_fim={{ data_fim }}"
+        alt="Gráfico de Níveis de Ruído" />
+    {% endif %}
 </body>
+
 </html>
