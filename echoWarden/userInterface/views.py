@@ -56,7 +56,6 @@ def dashboard(request):
 
         tempo_atividade_total += timedelta(hours=1)  
         
-    # Converter para horas
     horas_atividade = tempo_atividade_total.total_seconds() / 3600  
     
     ultima_medicao_registro = NiveisDeRuido.objects.latest('data')  
@@ -68,7 +67,7 @@ def dashboard(request):
         'total_medicoes': total_medicoes,
         'horas_atividade': round(horas_atividade, 2),  
         'ultima_medicao': ultima_medicao_decibel,  
- 
+        
     })
 
 
