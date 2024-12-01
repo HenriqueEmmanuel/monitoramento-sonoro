@@ -58,7 +58,8 @@
 
         <!-- Segunda coluna (Conteúdo principal) -->
         <div class="main-content">
-            <h2 class="sensor-name">[sensorName]</h2>
+            <h2 class="sensor-name">{{ nome_sensor }}</h2>
+
 
             <div class="info-container">
                 <div class="info-left">
@@ -70,7 +71,9 @@
                     <p>Total de <br> medições: {{ total_medicoes|default:"0" }}</p>
 
 
-                    <p>Status: <span class="status-active">ON</span></p>
+                    <p>Status: <span class="status-active {% if status_sensor == 'OFF' %}OFF{% else %}ON{% endif %}">{{
+                            status_sensor }}</span></p>
+
                 </div>
             </div>
         </div>

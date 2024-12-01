@@ -26,6 +26,6 @@ urlpatterns = [
     
     
     path('gerar-relatorio/', views.gerar_relatorio, name='gerar_relatorio'),
+    path('gerar_relatorio_csv/', views.relatoriofinal, name='gerar_relatorio_csv'),
     
-
 ]

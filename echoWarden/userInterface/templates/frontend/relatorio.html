@@ -46,8 +46,12 @@
         <div class="flex-left">
             <ul>
                 <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'grafico' %}"> Gráfico</a></li>
+                <li><a href="{% url 'grafico' %}">Gráfico</a></li>
                 <li><a href="{% url 'relatorio' %}">Relatórios</a></li>
+                <br>
+                <br>
+                <br>
+                <li><a href="{% url 'gerar_relatorio' %}">Gerar Csv</a></li>
             </ul>
         </div>
 
@@ -82,18 +86,8 @@
                     <option value="dezembro">Dezembro</option>
                 </select>
 
-                <button type="submit">Filtrar</button>
+                <li><a href="{% url 'gerar_relatorio_csv' %}">Relatórios</a></li>
             </form>
-            <form method="GET" action="{% url 'gerar_relatorio' %}">
-                <button type="submit">Gerar Relatório</button>
-            </form>
-            <td>
-                {% if nivel.data %}
-                {{ nivel.data|date:"F" }}
-                {% else %}
-                Data não disponível
-                {% endif %}
-            </td>
 
             <div class="info_data-container">
                 <table>
@@ -122,7 +116,6 @@
                         {% endfor %}
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>

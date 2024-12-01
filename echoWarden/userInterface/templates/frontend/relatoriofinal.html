@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Níveis de Ruído</title>
+</head>
+
+<body>
+    <h1>Relatório de Níveis de Ruído</h1>
+
+    <p><strong>Filtro - Período do Dia:</strong> {{ periodo_dia|default:"Todos os períodos" }}</p>
+    <p><strong>Filtro - Status de Perturbação:</strong> {{ perturbacao|default:"Todos os status" }}</p>
+    <p><strong>Filtro - Mês de Registro:</strong> {{ mes_registro|default:"Todos os meses" }}</p>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th style="padding-left: 20px; padding-right: 30px;">Data</th>
+                <th style="padding-left: 20px; padding-right: 30px;">dB</th>
+                <th style="padding-left: 20px; padding-right: 30px;">Pert.</th>
+                <th style="padding-left: 20px; padding-right: 30px;">Mês</th>
+                <th style="padding-left: 20px; padding-right: 30px;">Período</th>
+            </tr>
+        </thead>
+        {% if messages %}
+        <div class="alert alert-danger">
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <tbody>
+            {% for nivel in niveis %}
+            <tr>
+                <td>{{ nivel.data }}</td>
+                <td>{{ nivel.decibeis }}</td>
+                <td>{% if nivel.status %}Perturbado{% else %}Normal{% endif %}</td>
+                <td>{{ nivel.data|date:"F" }}</td>
+                <td>{{ nivel.hora|date:"H:i" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Nenhum dado encontrado para os filtros aplicados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'gerar_relatorio_csv' %}">Baixar Relatório CSV</a>
+
+</body>
+
+</html>

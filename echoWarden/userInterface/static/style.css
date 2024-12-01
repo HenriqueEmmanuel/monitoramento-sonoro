@@ -10,48 +10,68 @@ body {
 }
 
 .navbar {
-    background-color: #8A897C; /* Cor de fundo da navbar */
-    color: #fff; /* Cor do texto */
-    padding: 15px 0; /* Espaçamento interno */
+    background-color: #8A897C;
+    /* Cor de fundo da navbar */
+    color: #fff;
+    /* Cor do texto */
+    padding: 15px 0;
+    /* Espaçamento interno */
 }
 
 .container {
-    display: flex; /* Usando flexbox para alinhar itens */
-    justify-content: space-between; /* Espaço entre os itens */
-    align-items: center; /* Alinhamento vertical */
-    max-width: 1200px; /* Largura máxima */
-    margin: 0 auto; /* Centralizar */
-    padding: 0 20px; /* Espaçamento lateral */
+    display: flex;
+    /* Usando flexbox para alinhar itens */
+    justify-content: space-between;
+    /* Espaço entre os itens */
+    align-items: center;
+    /* Alinhamento vertical */
+    max-width: 1200px;
+    /* Largura máxima */
+    margin: 0 auto;
+    /* Centralizar */
+    padding: 0 20px;
+    /* Espaçamento lateral */
 }
 
 .icon {
-    display: flex; /* Usando flexbox para o container do ícone */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
+    display: flex;
+    /* Usando flexbox para o container do ícone */
+    justify-content: center;
+    /* Centraliza horizontalmente */
+    align-items: center;
+    /* Centraliza verticalmente */
     font-size: 30px;
 }
 
 .nav-links {
-    list-style-type: none; /* Remove a lista */
-    display: flex; /* Flexbox para os links */
+    list-style-type: none;
+    /* Remove a lista */
+    display: flex;
+    /* Flexbox para os links */
 }
 
 .nav-links li {
-    margin-left: 40px; /* Espaçamento entre os links */
+    margin-left: 40px;
+    /* Espaçamento entre os links */
 }
 
 .nav-links a {
-    text-decoration: none; /* Sem sublinhado */
-    color: #fff; /* Cor do texto dos links */
+    text-decoration: none;
+    /* Sem sublinhado */
+    color: #fff;
+    /* Cor do texto dos links */
 }
 
 /* Flexbox container principal */
 .flex-container {
     display: flex;
-    justify-content: space-between; /* Espaçamento entre as colunas */
-    align-items: flex-start; /* Alinhamento superior */
+    justify-content: space-between;
+    /* Espaçamento entre as colunas */
+    align-items: flex-start;
+    /* Alinhamento superior */
     padding: 20px;
-    margin-top: 20px; /* Espaço entre a navbar e o conteúdo */
+    margin-top: 20px;
+    /* Espaço entre a navbar e o conteúdo */
 }
 
 .flex-container {
@@ -60,27 +80,33 @@ body {
 }
 
 .flex-left {
-    list-style-type: none; /* Remove os pontos da lista */
-    padding: 0; /* Remove o padding padrão */
-    margin: 0; /* Remove a margem padrão */
+    list-style-type: none;
+    /* Remove os pontos da lista */
+    padding: 0;
+    /* Remove o padding padrão */
+    margin: 0;
+    /* Remove a margem padrão */
     flex: 1;
     padding: 20px;
     display: flex;
-    justify-content: center; 
-    align-items: center; 
+    justify-content: center;
+    align-items: center;
 }
 
 .flex-left ul {
-    list-style-type: none; /* Remove os pontos da lista */
-    padding: 0; /* Remove o padding padrão */
-    margin: 0; /* Remove a margem padrão */
+    list-style-type: none;
+    /* Remove os pontos da lista */
+    padding: 0;
+    /* Remove o padding padrão */
+    margin: 0;
+    /* Remove a margem padrão */
 }
 
 
 .flex-left #options {
     font-size: 18px;
-    font-weight: normal; 
-    text-align: right; 
+    font-weight: normal;
+    text-align: right;
 }
 
 .flex-right {
@@ -95,14 +121,14 @@ form {
     border-radius: 8px auto;
     background-color: transparent;
     display: flex;
-    gap: 20px; 
+    gap: 20px;
 }
 
 
 label {
     font-weight: bold;
     margin-bottom: 4px;
-    text-align: left; 
+    text-align: left;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -119,11 +145,15 @@ select {
 }
 
 .info_data-container {
-    margin: 20px auto; /* Adiciona margem para centralização */
+    margin: 20px auto;
+    /* Adiciona margem para centralização */
     display: flex;
-    flex-direction: column; /* Empilha os itens verticalmente */
-    gap: 20px; /* Adiciona espaçamento entre os itens */
-    align-items: center; /* Centraliza o conteúdo do container */
+    flex-direction: column;
+    /* Empilha os itens verticalmente */
+    gap: 20px;
+    /* Adiciona espaçamento entre os itens */
+    align-items: center;
+    /* Centraliza o conteúdo do container */
 }
 
 .side-content {
@@ -191,15 +221,16 @@ select {
     padding: 20px;
 }
 
-.info-right > p {
+.info-right>p {
     margin: 10px;
 }
 
-.info-left > p {
+.info-left>p {
     margin: 10px;
 }
 
-.info-left, .info-right {
+.info-left,
+.info-right {
     display: flex;
     flex-direction: column;
 }
@@ -242,4 +273,51 @@ select {
 /* Exibir o menu quando a classe 'show' for adicionada */
 .show {
     display: block;
+}
+
+
+/* Ajusta o espaçamento entre as células da tabela */
+table th,
+table td {
+    padding: 10px 20px;
+    /* Aumenta o espaço interno (padding) horizontal e vertical */
+    text-align: left;
+    /* Alinha o texto à esquerda */
+}
+
+/* Afastamento específico para os cabeçalhos */
+table th {
+    padding-right: 30px;
+    /* Aumenta o espaçamento entre os cabeçalhos */
+}
+
+/* Caso você precise de mais separação entre as colunas específicas, você pode usar as classes. Exemplo: */
+.table-data th:nth-child(1),
+.table-data td:nth-child(1) {
+    padding-left: 20px;
+    /* Aumenta o espaço à esquerda da primeira coluna (Data) */
+}
+
+.table-data th:nth-child(2),
+.table-data td:nth-child(2) {
+    padding-left: 20px;
+    /* Aumenta o espaço à esquerda da segunda coluna (dB) */
+}
+
+.table-data th:nth-child(3),
+.table-data td:nth-child(3) {
+    padding-left: 20px;
+    /* Aumenta o espaço à esquerda da terceira coluna (Pert.) */
+}
+
+.table-data th:nth-child(4),
+.table-data td:nth-child(4) {
+    padding-left: 20px;
+    /* Aumenta o espaço à esquerda da quarta coluna (Mês) */
+}
+
+.table-data th:nth-child(5),
+.table-data td:nth-child(5) {
+    padding-left: 20px;
+    /* Aumenta o espaço à esquerda da quinta coluna (Período) */
 }

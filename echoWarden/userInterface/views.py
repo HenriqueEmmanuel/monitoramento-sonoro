@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 import json
@@ -37,37 +38,47 @@ from django.shortcuts import redirect
 from django.contrib.auth import logout
 from io import StringIO
 import csv
+from fpdf import FPDF
+import tempfile 
+from PIL import Image
+import matplotlib
+matplotlib.use('Agg')  
+import matplotlib.pyplot as plt
 
 
 @login_required
 def dashboard(request):
     total_medicoes = NiveisDeRuido.objects.count() 
-    
-    # esse aqui so calcula se for TRUE 
+
     niveis_atividade = NiveisDeRuido.objects.filter(status=True)
     
     tempo_atividade_total = timedelta()
     for nivel in niveis_atividade:
         data_hora = datetime.combine(nivel.data, nivel.hora)
-
-        
-        
-        
-
         tempo_atividade_total += timedelta(hours=1)  
-        
     horas_atividade = tempo_atividade_total.total_seconds() / 3600  
-    
-    ultima_medicao_registro = NiveisDeRuido.objects.latest('data')  
-    ultima_medicao_decibel = ultima_medicao_registro.decibeis if ultima_medicao_registro else None
 
+    try:
+        ultima_medicao_registro = NiveisDeRuido.objects.latest('data')
+        ultima_medicao_decibel = ultima_medicao_registro.decibeis
+        ultima_medicao_status = ultima_medicao_registro.status
+    except NiveisDeRuido.DoesNotExist:
+        ultima_medicao_decibel = None
+        ultima_medicao_status = False 
+
+    if ultima_medicao_status:
+        status_sensor = "ON"
+    else:
+        status_sensor = "OFF"
     
+    nome_sensor = "Sensor 1"
     
     return render(request, 'frontend/dashboard.html', {
         'total_medicoes': total_medicoes,
         'horas_atividade': round(horas_atividade, 2),  
         'ultima_medicao': ultima_medicao_decibel,  
-        
+        'status_sensor': status_sensor,
+        'nome_sensor': nome_sensor,
     })
 
 
@@ -193,6 +204,15 @@ def logout_view(request):
 
 
 
+
+def nome_mes_sem_acentuacao(mes_num):
+    meses = [
+        "janeiro", "fevereiro", "marco", "abril", "maio", "junho",
+        "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+    ]
+    return meses[mes_num - 1] if 1 <= mes_num <= 12 else 'Mes invalido'
+from django.core.exceptions import ValidationError
+
 def gerar_relatorio(request):
     periodo_dia = request.GET.get('periodo-dia')
     perturbacao = request.GET.get('perturbacao')
@@ -207,25 +227,78 @@ def gerar_relatorio(request):
             niveis = niveis.filter(hora__gte='12:00:00', hora__lt='18:00:00')
         elif periodo_dia == 'noite':
             niveis = niveis.filter(hora__gte='18:00:00')
+        else:
+            raise ValidationError("Período do dia inválido")
 
     if perturbacao:
         if perturbacao == 'sim':
             niveis = niveis.filter(status=True)
         elif perturbacao == 'nao':
             niveis = niveis.filter(status=False)
+        else:
+            raise ValidationError("Valor de perturbacao inválido")
 
     if mes_registro:
-        niveis = niveis.filter(data__month=mes_registro)
+        try:
+            mes_registro = int(mes_registro)
+            niveis = niveis.filter(data__month=mes_registro)
+        except ValueError:
+            raise ValidationError("Mês de registro inválido")
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="relatorio_niveis_ruido.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['Data', 'dB', 'Perturbacao', 'Mês', 'Período'])
+
+    writer.writerow(['Relatorio Tecnico de Niveis de Ruido'])
+    writer.writerow(['Este relatorio contem dados sobre os niveis de ruido coletados pela plataforma EchoWarden.'])
+    writer.writerow(['A plataforma EchoWarden e um sistema de monitoramento ambiental projetado para registrar e analisar os niveis de ruido em areas urbanas e industriais.'])
+    writer.writerow(['Ele utiliza sensores acusticos distribuídos para coletar dados em tempo real, permitindo uma analise detalhada das condicoes de ruido e seu impacto na saude publica e qualidade de vida.'])
+    writer.writerow([f'Relatorio gerado em: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'])
+    writer.writerow(['Fonte de dados: Banco de Dados - Modelo NiveisDeRuido'])
+    writer.writerow([''])
+    
+    writer.writerow(['Campos do Relatorio:'])
+    writer.writerow(['- "Data": Data e hora em que o nivel de ruido foi registrado. Essa informacao e crucial para determinar a tendencia temporal dos niveis de ruido e identificar padroes.'])
+    writer.writerow(['- "Nivel de Ruido (dB)": Representa o nivel de pressao sonora medido em decibeis (dB), uma unidade logaritmica que expressa a intensidade do som. Niveis mais altos podem indicar poluicao sonora e impacto ambiental.'])
+    writer.writerow(['- "Status de Perturbacao": Indica se o nivel de ruido registrado ultrapassou o limite toleravel para o ambiente em questao. A presenca de um "status de perturbacao" sugere que os niveis de ruido podem ser prejudiciais.'])
+    writer.writerow(['- "Mes": Mes em que o dado foi registrado. Isso ajuda a observar variacoes sazonais ou tendencias anuais no comportamento do ruido.'])
+    writer.writerow(['- "Periodo do dia": Define a faixa horaria em que o dado foi coletado, ajudando a analisar as variacoes nos niveis de ruido ao longo do dia.'])
+
+    writer.writerow([''])
+    writer.writerow([f'Filtro - Periodo do dia: {periodo_dia if periodo_dia else "Todos os periodos"}'])
+    writer.writerow([f'Filtro - Status de perturbacao: {perturbacao if perturbacao else "Todos os status"}'])
+    writer.writerow([f'Filtro - Mes de registro: {mes_registro if mes_registro else "Todos os meses"}'])
+    writer.writerow([''])
+
+    writer.writerow(['Descricao do Status de Perturbacao:'])
+    writer.writerow(['- "Perturbado" (status=1): Indica que o nivel de ruido registrado ultrapassou o limite estabelecido, podendo causar impactos na saude humana e no bem-estar social.'])
+    writer.writerow(['- "Normal" (status=0): Indica que o nivel de ruido esta dentro dos parametros aceitaveis para o ambiente e nao e considerado perturbador.'])
+    writer.writerow([''])
+    
+    writer.writerow(['Limites de Nivel de Ruido:'])
+    writer.writerow(['- Os limites de ruido considerados seguros podem variar de acordo com o local (urbano, industrial, residencial) e a legislacao local. Em areas residenciais, por exemplo, niveis superiores a 55 dB durante a noite sao geralmente considerados prejudiciais.'])
+    writer.writerow(['- O monitoramento continuo de ruido e fundamental para identificar fontes de poluicao sonora e adotar medidas corretivas, como o controle de trafego ou regulamentacao de horarios de funcionamento de industrias.'])
+    writer.writerow([''])
+
+    writer.writerow(['Data', 'Nivel de Ruido (dB)', 'Status de Perturbacao', 'Mes', 'Periodo do dia'])
 
     for nivel in niveis:
-        data_formatada = nivel.data.strftime('%B') if nivel.data else 'Data não disponível'
-        writer.writerow([nivel.data, nivel.decibeis, 'Sim' if nivel.status else 'Não', data_formatada, nivel.hora])
+        data_formatada = nome_mes_sem_acentuacao(nivel.data.month) if nivel.data else 'Data nao disponivel'
+        status_texto = 'Perturbado' if nivel.status else 'Normal'
+        writer.writerow([nivel.data, nivel.decibeis, status_texto, data_formatada, nivel.hora])
+
+
+    writer.writerow([''])
+    writer.writerow(['Conclusao:'])
+    writer.writerow(['Este relatório fornece uma visão detalhada sobre os níveis de ruído em áreas monitoradas pela plataforma EchoWarden, permitindo a identificação de períodos críticos de poluição sonora e o acompanhamento da eficácia de medidas corretivas, caso necessário.'])
+    writer.writerow(['Com base nas medições coletadas e nos filtros aplicados, é possível observar padrões de variação nos níveis de ruído ao longo do tempo, bem como a relação entre o status de perturbação e os horários de maior incidência de níveis elevados de ruído.'])
+    writer.writerow(['A coleta contínua e a análise desses dados são fundamentais para a implementação de políticas públicas eficazes de controle da poluição sonora e para a melhoria da qualidade de vida nas comunidades.'])
+    writer.writerow(['Medidas corretivas podem incluir ajustes no planejamento urbano, como a regulamentação de horários de funcionamento de atividades industriais e comerciais, a implantação de zonas silenciosas em áreas residenciais, e o incentivo ao uso de tecnologias que reduzam a emissão de ruído.'])
+    writer.writerow(['Além disso, a conscientização pública sobre os impactos da poluição sonora na saúde humana deve ser uma prioridade, com campanhas educativas sobre limites de exposição ao ruído e práticas adequadas para minimizar os efeitos negativos da exposição contínua ao som excessivo.'])
+    writer.writerow(['A plataforma EchoWarden, ao fornecer dados em tempo real sobre os níveis de ruído, pode ser um instrumento valioso para órgãos de regulamentação, comunidades locais e pesquisadores que buscam entender e combater a poluição sonora.'])
+    writer.writerow(['A continuidade do monitoramento será essencial para garantir que as intervenções adotadas sejam eficazes na melhoria das condições acústicas das áreas monitoradas.'])
+    writer.writerow([''])
 
     return response
 
@@ -234,12 +307,45 @@ def gerar_relatorio(request):
 
 
 
+def relatoriofinal(request):
+    periodo_dia = request.GET.get('periodo-dia')
+    perturbacao = request.GET.get('perturbacao')
+    mes_registro = request.GET.get('mes-registro')
 
+    niveis = NiveisDeRuido.objects.all()
 
+    if periodo_dia:
+        if periodo_dia == 'manha':
+            niveis = niveis.filter(hora__lt='12:00:00')
+        elif periodo_dia == 'tarde':
+            niveis = niveis.filter(hora__gte='12:00:00', hora__lt='18:00:00')
+        elif periodo_dia == 'noite':
+            niveis = niveis.filter(hora__gte='18:00:00')
+        else:
+            raise ValidationError("Período do dia inválido")
 
+    if perturbacao:
+        if perturbacao == 'sim':
+            niveis = niveis.filter(status=True)
+        elif perturbacao == 'nao':
+            niveis = niveis.filter(status=False)
+        else:
+            raise ValidationError("Valor de perturbacao inválido")
 
+    if mes_registro:
+        try:
+            mes_registro = int(mes_registro)  #TEM QUE CONVERTER PARA INTERIROR PARA FUNCIONAR
+            if not (1 <= mes_registro <= 12):
+                raise ValidationError("Mês de registro inválido")
+            niveis = niveis.filter(data__month=mes_registro)
+        except ValueError:
+            raise ValidationError("Mês de registro inválido")
 
+    context = {
+        'niveis': niveis,
+        'periodo_dia': periodo_dia,
+        'perturbacao': perturbacao,
+        'mes_registro': mes_registro
+    }
 
-
-
-
+    return render(request, 'frontend/relatorio.html', context)
