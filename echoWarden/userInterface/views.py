@@ -95,9 +95,38 @@ def relatorio(request):
 
 class ReceberRuido(APIView):
     permission_classes = [AllowAny]  
-    def post(self, request):
-        ...
 
+    def post(self, request):
+        try:
+            dados = request.data
+            
+            data = datetime.strptime(dados['data'], '%Y-%m-%d').date()
+            hora = datetime.strptime(dados['hora'], '%H:%M:%S').time()
+            decibeis = dados['decibeis']
+            limite = dados['limite']
+            status = dados['status']
+
+            novo_nivel = NiveisDeRuido(
+                data=data,
+                hora=hora,
+                decibeis=decibeis,
+                limite=limite,
+                status=status
+            )
+            
+            novo_nivel.save()
+
+            return Response({
+                "status": "ok",
+                "message": "Nível de ruído registrado com sucesso",
+                "data": dados
+            }, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({
+                "status": "error",
+                "message": f"Erro ao processar os dados: {str(e)}"
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 class NiveisDeRuidoViewSet(viewsets.ModelViewSet):
     queryset = NiveisDeRuido.objects.all()
