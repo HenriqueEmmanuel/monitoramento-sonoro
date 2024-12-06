@@ -4,29 +4,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gráfico de Níveis de Ruído</title>
+    <title>Gerar Gráfico de Níveis de Ruído</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .chart-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Gráfico de Níveis de Ruído</h1>
 
-    <!-- Formulário de filtro -->
-    <form method="get" action="{% url 'grafico' %}">
-        <label for="data_inicio">Data Início:</label>
-        <input type="date" id="data_inicio" name="data_inicio" required>
+    <div class="form-container">
+        <h1>Gerar Gráfico de Níveis de Ruído</h1>
+        <form action="{% url 'grafico' %}" method="get" enctype="multipart/form-data">
+            <label for="data_inicio">Data de Início:</label>
+            <input type="date" id="data_inicio" name="data_inicio" required>
 
-        <label for="data_fim">Data Fim:</label>
-        <input type="date" id="data_fim" name="data_fim" required>
+            <label for="data_fim">Data de Fim:</label>
+            <input type="date" id="data_fim" name="data_fim" required>
 
-        <button type="submit">Filtrar</button>
-    </form>
+            <button type="submit">Gerar Gráfico</button>
+        </form>
+    </div>
 
-    {% if data_inicio and data_fim %}
-    <h2>Gráfico Gerado</h2>
-    <!-- Exibindo a imagem do gráfico -->
-    <img src="{% url 'grafico' %}?data_inicio={{ data_inicio }}&data_fim={{ data_fim }}"
-        alt="Gráfico de Níveis de Ruído" />
+    {% if imagem_grafico %}
+    <div class="chart-container">
+        <h2>Gráfico Gerado:</h2>
+        <img src="data:image/png;base64,{{ imagem_grafico }}" alt="Gráfico de Níveis de Ruído">
+    </div>
     {% endif %}
+
 </body>
 
 </html>
