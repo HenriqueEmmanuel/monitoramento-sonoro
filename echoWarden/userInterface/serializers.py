@@ -4,4 +4,4 @@ from .models import NiveisDeRuido
 class NiveisDeRuidoSerializer(serializers.ModelSerializer):
     class Meta:
         model = NiveisDeRuido
-        fields = '__all__'
+        fields = ['data', 'hora', 'decibeis', 'limite', 'status']

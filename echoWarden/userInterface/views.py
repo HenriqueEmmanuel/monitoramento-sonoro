@@ -116,12 +116,21 @@ def relatorio(request):
 
 #Rapaz hora funciona e caso não receber o Post aper o boot do esp
 class ReceberRuido(APIView):
-    permission_classes = [AllowAny]  
+    permission_classes = [AllowAny]
 
     def post(self, request):
         try:
             dados = request.data
-            
+
+            required_fields = ['data', 'hora', 'decibeis', 'limite', 'status']
+            for field in required_fields:
+                if field not in dados:
+                    return Response({
+                        "status": "error",
+                        "message": f"Falta o campo: {field}"
+                    }, status=status.HTTP_400_BAD_REQUEST)
+
+            # Validando os dados
             data = datetime.strptime(dados['data'], '%Y-%m-%d').date()
             hora = datetime.strptime(dados['hora'], '%H:%M:%S').time()
             decibeis = dados['decibeis']
@@ -135,7 +144,7 @@ class ReceberRuido(APIView):
                 limite=limite,
                 status=status
             )
-            
+
             novo_nivel.save()
 
             return Response({
@@ -149,6 +158,7 @@ class ReceberRuido(APIView):
                 "status": "error",
                 "message": f"Erro ao processar os dados: {str(e)}"
             }, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class NiveisDeRuidoViewSet(viewsets.ModelViewSet):
