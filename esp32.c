@@ -5,8 +5,8 @@
 #include <ArduinoJson.h>
 #include <time.h>  
 
-const char* ssid = "Henrique";
-const char* password = "manoel12345";
+const char* ssid = "nome";
+const char* password = "senha";
 const char* server_url = "http://ipdamaquina:8000/userInterface/api/niveis_de_ruido/";
 
 
